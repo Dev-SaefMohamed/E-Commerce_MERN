@@ -1,10 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel";
-// i export this interface to import it with validateJWT in cart route
-export interface ExtendRequest extends Request {
-    user?: any;
-}
+import { ExtendRequest } from "../types/ExtendRequest";
 
 const validateJWT = (req: ExtendRequest, res: Response, next: NextFunction) => {
       const authorizationHeader = req.get('authorization');
