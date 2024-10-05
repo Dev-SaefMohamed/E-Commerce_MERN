@@ -65,6 +65,6 @@ const generateJWT = (data: any) => {
     //  (sign) take 2 things: 1-payload(data -> you need to encrypt it)
                            // 2-secrete key(secrete number we used it to encrypt the data)
                            // 3-options
-        return jwt.sign(data, '73AA1277EED6AA789F478AE33488E', {})
+        return jwt.sign(data, process.env.JWT_SECRET || "")
        
 }
