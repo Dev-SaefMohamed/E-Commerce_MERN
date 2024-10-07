@@ -9,7 +9,7 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
+import AnchorIcon from '@mui/icons-material/Anchor';
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -27,7 +27,7 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="static" >
+    <AppBar position="static"  >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box
@@ -46,7 +46,7 @@ function Navbar() {
                 alignItems: "center",
               }}
             >
-              <AdbIcon sx={{ display: "flex", mr: 1 }} />
+              <AnchorIcon sx={{ display: "flex", mr: 1 }} />
               <Typography
                 variant="h6"
                 noWrap
