@@ -10,10 +10,15 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AnchorIcon from '@mui/icons-material/Anchor';
+import { useAuth } from '../context/Auth/AuthContext';
+
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navbar() {
+  //  test
+  const {username, token} = useAuth();
+
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -25,6 +30,10 @@ function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  // test
+  console.log('from navbar:', { username, token });
+  
 
   return (
     <AppBar position="static"  >
