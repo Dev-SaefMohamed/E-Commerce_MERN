@@ -22,7 +22,7 @@ router.post('/register', async (request, response) => {
         });
     
         response.status(statusCode)
-                .send(data)
+                .json(data)
         
     } catch (err) {
         response.status(500).send("Something went wrong!");
@@ -41,7 +41,7 @@ router.post('/login',async (request, response) => {
         password,
       });
 
-      response.status(statusCode).send(data);
+      response.status(statusCode).json(data);
     } catch (err) {
       response.status(500).send("Something went wrong!");
     }
