@@ -1,6 +1,7 @@
 import { FC, PropsWithChildren, useState } from "react";
 import { AuthContext } from "./AuthContext";
 
+
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
     const [username, setUsername] = useState<string | null>(localStorage.getItem('username'));
@@ -14,9 +15,11 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         localStorage.setItem('username', username);
         localStorage.setItem('token', token);
     }
+    // (!!) -> truth ((*) there is value inside this token)
+    const isAuthenticated = !!token;
 
     return (
-        <AuthContext.Provider value={{ username, token, login }}>
+        <AuthContext.Provider value={{ username, token, login, isAuthenticated }}>
              {/* children here mean all app wrap in [AUTHprovider]*/}
               {children}
         </AuthContext.Provider>

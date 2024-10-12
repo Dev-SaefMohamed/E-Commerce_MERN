@@ -9,6 +9,8 @@ interface AuthContextType {
     // from AUTHprovider component
     // we need the login function:
      login: (username: string, token: string) => void;
+
+     isAuthenticated: boolean;
      
 }
 
@@ -20,7 +22,12 @@ interface AuthContextType {
 //  The useAuth hook provides a convenient 
 //  way to access this context data within your components.
 
-export const AuthContext = createContext<AuthContextType>({ username: null, token: null, login: () => {} });
+export const AuthContext = createContext<AuthContextType>({
+  username: null,
+  token: null,
+  login: () => {},
+  isAuthenticated: false,
+});
 
 // useAuth. This hook uses the useContext hook to access the AuthContext created earlier.
 export const useAuth = () => useContext(AuthContext);
