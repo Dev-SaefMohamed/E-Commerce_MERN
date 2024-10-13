@@ -10,8 +10,9 @@ import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AnchorIcon from '@mui/icons-material/Anchor';
+import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import { useAuth } from '../context/Auth/AuthContext';
-import { Button, Grid } from '@mui/material';
+import { Badge, Button, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -41,6 +42,10 @@ function Navbar() {
     logout();
     navigate('/');
     handleCloseUserMenu();
+ }
+
+ const handelCart = () => {
+  navigate('/cart');
 }
 
   return (
@@ -78,7 +83,21 @@ function Navbar() {
                 Tech Titans
               </Typography>
             </Box>
-            <Box sx={{ flexGrow: 0 }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              gap={3}
+            >
+              <IconButton aria-label="cart" onClick={handelCart}>
+                <Badge badgeContent={4} color="secondary">
+                  <ShoppingCart sx={{ color:"#fff" }}/>
+                </Badge>
+              </IconButton>
               {isAuthenticated ? (
                 <>
                   <Tooltip title="Open settings">
@@ -130,7 +149,9 @@ function Navbar() {
                   </Menu>
                 </>
               ) : (
-                <Button variant='contained' onClick={handelLogin}>Login</Button>
+                <Button variant="contained" onClick={handelLogin}>
+                  Login
+                </Button>
               )}
             </Box>
           </Box>
