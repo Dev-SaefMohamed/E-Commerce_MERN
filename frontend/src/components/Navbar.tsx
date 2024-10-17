@@ -14,11 +14,14 @@ import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import { useAuth } from '../context/Auth/AuthContext';
 import { Badge, Button, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../context/Cart/CartContext';
 
 
 function Navbar() {
   //  
   const { username, isAuthenticated, logout } = useAuth();
+
+  const { cartItems } = useCart();
 
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -61,28 +64,32 @@ function Navbar() {
               alignItems: "center",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <AnchorIcon sx={{ display: "flex", mr: 1 }} />
-              <Typography
-                variant="h6"
-                noWrap
-                component="a"
+            <Button variant="text"
+                    onClick={() => navigate("/")}
+                    sx={{ color: '#fff' }}>
+              <Box
                 sx={{
-                  mr: 2,
-                  display: { xs: "none", md: "flex" },
-                  fontFamily: "monospace",
-                  fontWeight: 700,
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
                 }}
               >
-                Tech Titans
-              </Typography>
-            </Box>
+                <AnchorIcon sx={{ display: "flex", mr: 1 }} />
+                <Typography
+                  variant="h6"
+                  noWrap
+                  component="a"
+                  sx={{
+                    mr: 2,
+                    display: { xs: "none", md: "flex" },
+                    fontFamily: "monospace",
+                    fontWeight: 700,
+                  }}
+                >
+                  Tech Titans
+                </Typography>
+              </Box>
+            </Button>
             <Box
               sx={{
                 display: "flex",
@@ -94,8 +101,8 @@ function Navbar() {
               gap={3}
             >
               <IconButton aria-label="cart" onClick={handelCart}>
-                <Badge badgeContent={4} color="secondary">
-                  <ShoppingCart sx={{ color:"#fff" }}/>
+                <Badge badgeContent={cartItems.length} color="secondary">
+                  <ShoppingCart sx={{ color: "#fff" }} />
                 </Badge>
               </IconButton>
               {isAuthenticated ? (
