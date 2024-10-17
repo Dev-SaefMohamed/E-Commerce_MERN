@@ -16,12 +16,21 @@ const createCartForUser = async ({ userId }: CreateCartForUser) => {
 
 interface GetActiveCartForUser {
     userId: string;
+    populateProduct?: boolean; 
 }
 
 export const getActiveCartForUser = async ({
     userId,
+    populateProduct
 }: GetActiveCartForUser) => {
-    let cart = await cartModel.findOne({ userId, status: "active" });
+    let cart; 
+
+    if(populateProduct) {
+        cart = await cartModel.findOne({ userId, status: "active" })
+                              .populate('items.product');
+    } else {
+        cart = await cartModel.findOne({ userId, status: "active" });
+    }
 
     if(!cart) {
         cart = await createCartForUser({ userId })
@@ -82,9 +91,9 @@ export const addItemToCart = async ({
 // UPDATE the total amount for the cart
     cart.totalAmount += product.price * quantity;
 
-    const updateCart = await cart.save();
+    await cart.save();
 
-    return { data: updateCart, statusCode: 201 };
+    return { data: await getActiveCartForUser({ userId, populateProduct: true }), statusCode: 201 };
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,9 +133,10 @@ export const updateItemInCart = async ({
 
     total += existsInCart.quantity * existsInCart.unitPrice;
     cart.totalAmount = total;
-    const updatedCart = await cart.save();
+    
+    await cart.save();
 
-    return { data: updatedCart, statusCode: 201 };
+    return { data: await getActiveCartForUser({ userId, populateProduct: true }), statusCode: 201 };
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,9 +161,10 @@ export const deleteItemInCart = async ({ userId, productId }: DeleteItemInCart )
 
     cart.items = otherCartItems;
     cart.totalAmount = total;
-    const deleteCart = await cart.save();
+    
+    await cart.save();
 
-    return { data: deleteCart, statusCode: 201 };
+    return { data: await getActiveCartForUser({ userId, populateProduct: true }), statusCode: 201 };
 }
 
 const calculateCartTotalItems = ({
