@@ -49,7 +49,7 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
         }, [token]);
     
 
-
+    // add
     const addItemToCart = async (productId: string) => {
           
         try {
@@ -94,8 +94,96 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
           
     };
 
+
+    // update
+     const updateItemInCart = async (productId: string, quantity: number) => {
+       try {
+         const response = await fetch(`${BASE_URL}/cart/items`, {
+           method: "PUT",
+           headers: {
+             "Content-Type": "application/json",
+             Authorization: `Bearer ${token}`,
+           },
+           body: JSON.stringify({
+             productId,
+             quantity
+           }),
+         });
+
+         if (!response.ok) {
+           setError("Failed to update item in cart");
+         }
+
+         const cart = await response.json();
+
+         if (!cart) {
+           setError("Failed to parse cart data");
+         }
+
+         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         const cartItemMapped = cart.items.map(
+           ({ product, quantity, unitPrice }: { product: any; quantity: number; unitPrice: number }) => ({
+             productId: product._id,
+             title: product.title,
+             image: product.image,
+             unitPrice,
+             quantity,
+           })
+         );
+
+         setCartItems([...cartItemMapped]);
+
+         setTotalAmount(cart.totalAmount);
+       } catch (error) {
+         console.error(error);
+       }
+     };
+
+    //  delete
+     const deleteItemInCart = async (productId: string) => {
+      try {
+        const response = await fetch(`${BASE_URL}/items/:productId`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            productId,
+          }),
+        });
+
+        if (!response.ok) {
+          setError("Failed to update item in cart");
+        }
+
+        const cart = await response.json();
+
+        if (!cart) {
+          setError("Failed to parse cart data");
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const cartItemMapped = cart.items.map(
+          ({ product, quantity, unitPrice }: { product: any; quantity: number; unitPrice: number }) => ({
+            productId: product._id,
+            title: product.title,
+            image: product.image,
+            unitPrice,
+            quantity,
+          })
+        );
+
+        setCartItems([...cartItemMapped]);
+
+        setTotalAmount(cart.totalAmount);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     return (
-        <CartContext.Provider value={{ cartItems, totalAmount, addItemToCart }}>
+        <CartContext.Provider value={{ cartItems, totalAmount, addItemToCart, updateItemInCart, deleteItemInCart }}>
              {/* children here mean all app wrap in [AUTHprovider]*/}
               {children}
         </CartContext.Provider>

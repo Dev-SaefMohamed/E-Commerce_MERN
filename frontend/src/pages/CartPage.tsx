@@ -6,9 +6,26 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 
 const CartPage = () => {
    
-    const { cartItems, totalAmount } = useCart();
+    const { cartItems, totalAmount, updateItemInCart, removeItemInCart } = useCart();
 
-    return (
+    const handelQuantity = (productId: string, quantity: number) => {
+
+      if(quantity <= 0){
+        return;
+      }
+
+      updateItemInCart(productId, quantity);
+
+    }
+
+    const handelRemoveItem = (productId: string) => {
+        
+      removeItemInCart(productId)
+     
+    }
+
+
+     return (
       <Container fixed sx={{ mt: 2 }}>
         <Typography variant="h4">my cart</Typography>
         <Box display='flex' flexDirection='column' gap={4}>
@@ -35,14 +52,14 @@ const CartPage = () => {
                 <Box>
                   <Typography variant="h6">{item.title}</Typography>
                   <Typography>{item.quantity * item.unitPrice} EGP</Typography>
-                  <Button>Remove Item</Button>
+                  <Button onClick={() => handelRemoveItem(item.productId)}>Remove Item</Button>
                 </Box>
               </Box>
 
               <ButtonGroup variant="contained" aria-label="Basic button group">
                 {/* action buttons */}
-                <Button>-</Button>
-                <Button>+</Button>
+                <Button onClick={() => handelQuantity(item.productId, item.quantity - 1)}>-</Button>
+                <Button onClick={() => handelQuantity(item.productId, item.quantity + 1)}>+</Button>
               </ButtonGroup>
             </Box>
           ))}
