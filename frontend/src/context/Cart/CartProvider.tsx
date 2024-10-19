@@ -140,21 +140,17 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
      };
 
     //  delete
-     const deleteItemInCart = async (productId: string) => {
+     const removeItemInCart = async (productId: string) => {
       try {
-        const response = await fetch(`${BASE_URL}/items/:productId`, {
+        const response = await fetch(`${BASE_URL}/cart/items/${productId}`, {
           method: "DELETE",
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`
           },
-          body: JSON.stringify({
-            productId,
-          }),
         });
 
         if (!response.ok) {
-          setError("Failed to update item in cart");
+          setError("Failed to remove item in cart");
         }
 
         const cart = await response.json();
@@ -177,13 +173,14 @@ const CartProvider: FC<PropsWithChildren> = ({ children }) => {
         setCartItems([...cartItemMapped]);
 
         setTotalAmount(cart.totalAmount);
+      
       } catch (error) {
         console.error(error);
       }
     };
 
     return (
-        <CartContext.Provider value={{ cartItems, totalAmount, addItemToCart, updateItemInCart, deleteItemInCart }}>
+        <CartContext.Provider value={{ cartItems, totalAmount, addItemToCart, updateItemInCart, removeItemInCart }}>
              {/* children here mean all app wrap in [AUTHprovider]*/}
               {children}
         </CartContext.Provider>
