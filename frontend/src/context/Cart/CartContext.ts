@@ -10,6 +10,7 @@ interface CartContextType {
     addItemToCart: (productId: string) => void;
     updateItemInCart : (productId: string, quantity: number) => void;
     removeItemInCart : (productId: string) => void;
+    clearCart: () => void
 
 }
 
@@ -26,7 +27,8 @@ export const CartContext = createContext<CartContextType>({
        totalAmount: 0,
        addItemToCart: () => {},
        updateItemInCart: () => {},
-       removeItemInCart: () => {}
+       removeItemInCart: () => {},
+       clearCart: () => {}
 });
 
 // useAuth. This hook uses the useContext hook to access the AuthContext created earlier.
