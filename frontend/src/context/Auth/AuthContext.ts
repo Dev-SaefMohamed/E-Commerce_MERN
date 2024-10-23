@@ -7,12 +7,15 @@ interface AuthContextType {
     token: string | null;
     //
     isAuthenticated: boolean;
+    myOrders: any[];
     // to implement the set value 
     // from AUTHprovider component
     // we need the login function:
      login: (username: string, token: string) => void;
     // to logout we must clean local storage
      logout: () => void;
+    //  get my orders
+    getMyOrders: () => void;
 }
 
 //(*)Overall Purpose:
@@ -27,8 +30,10 @@ export const AuthContext = createContext<AuthContextType>({
   username: null,
   token: null,
   isAuthenticated: false,
+  myOrders: [],
   login: () => {},
-  logout: () => {}
+  logout: () => {},
+  getMyOrders: () => {}
 });
 
 // useAuth. This hook uses the useContext hook to access the AuthContext created earlier.
